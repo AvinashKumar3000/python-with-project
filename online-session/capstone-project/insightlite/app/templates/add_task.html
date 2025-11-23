@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add Task</h2>
+<form action="/add" method="post">
+    <label>Title: <input type="text" name="title" required></label><br>
+    <label>Description: <input name="description"></label><br>
+    <label>Priority (1-5): <input type="number" name="priority" value="1" min="1" max="5"></label><br>
+    <label>Estimated Days: <input type="number" name="est_days" value="1" min="1"></label><br>
+    <label>Due Date (YYYY-MM-DD): <input type="text" name="due_date"></label><br>
+    <button type="submit">Add</button>
+</form>
+{% endblock %}
