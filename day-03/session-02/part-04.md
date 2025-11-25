@@ -3,7 +3,7 @@
 
 The `datetime` module provides classes for working with dates, times, and timestamps.
 
-### **Importing**
+- **Importing**
 
 ```python
 import datetime
@@ -13,19 +13,19 @@ import datetime
 
 ## **Working with Dates**
 
-### **1. Current Date**
+- **1. Current Date**
 
 ```python
 today = datetime.date.today()
 ```
 
-### **2. Creating a Date**
+- **2. Creating a Date**
 
 ```python
 d = datetime.date(2025, 2, 18)
 ```
 
-### **3. Accessing Components**
+- **3. Accessing Components**
 
 ```python
 today.year
@@ -46,13 +46,13 @@ print(t.hour, t.minute)
 
 ## **Working with Date & Time (`datetime.datetime`)**
 
-### **1. Current Date and Time**
+- **1. Current Date and Time**
 
 ```python
 now = datetime.datetime.now()
 ```
 
-### **2. Creating a datetime Object**
+- **2. Creating a datetime Object**
 
 ```python
 dt = datetime.datetime(2025, 1, 1, 10, 30)
@@ -62,7 +62,7 @@ dt = datetime.datetime(2025, 1, 1, 10, 30)
 
 ## **Formatting and Parsing**
 
-### **1. Format datetime → String (`strftime`)**
+- **1. Format datetime → String (`strftime`)**
 
 ```python
 now.strftime("%d-%m-%Y %H:%M:%S")
@@ -77,22 +77,10 @@ now.strftime("%d-%m-%Y %H:%M:%S")
 | %M     | Minute       |
 | %S     | Second       |
 
-### **2. Parse String → datetime (`strptime`)**
+- **2. Parse String → datetime (`strptime`)**
 
 ```python
 datetime.datetime.strptime("18-02-2025", "%d-%m-%Y")
-```
-
----
-
-## **Date Arithmetic (`timedelta`)**
-
-```python
-from datetime import timedelta
-
-today = datetime.date.today()
-yesterday = today - timedelta(days=1)
-after_10 = today + timedelta(days=10)
 ```
 
 ---

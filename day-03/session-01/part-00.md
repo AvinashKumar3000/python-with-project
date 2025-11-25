@@ -14,7 +14,7 @@
 | `"b"`  | Binary mode         | `"rb"`, `"wb"`        |
 | `"t"`  | Text mode (default) | `"rt"`, `"wt"`        |
 
-### **Syntax**
+- **Syntax**
 
 ```python
 file = open("sample.txt", "r")
@@ -28,6 +28,9 @@ file.close()
 
 ## **Best Method → Using `with` (Auto-close)**
 
+- You don't need to close the file pointer.
+- That will be automatically taken care by with.
+
 ```python
 with open("sample.txt", "r") as f:
     data = f.read()
@@ -35,31 +38,31 @@ with open("sample.txt", "r") as f:
 
 ## **Reading Files**
 
-### **Read entire file**
+- **Read entire file**
 
 ```python
 f.read()
 ```
 
-### **Read first N characters**
+- **Read first N characters**
 
 ```python
 f.read(10)
 ```
 
-### **Read one line**
+- **Read one line**
 
 ```python
 f.readline()
 ```
 
-### **Read all lines as list**
+- **Read all lines as list**
 
 ```python
 f.readlines()
 ```
 
-### **Iterating line-by-line**
+- **Iterating line-by-line**
 
 ```python
 for line in f:
@@ -70,13 +73,13 @@ for line in f:
 
 ## **Writing to Files**
 
-### **Write string**
+- **Write string**
 
 ```python
 f.write("Hello")
 ```
 
-### **Write multiple lines**
+- **Write multiple lines**
 
 ```python
 f.writelines(["A\n", "B\n", "C\n"])
@@ -103,13 +106,13 @@ os.path.exists("data.txt")
 
 ## **File Pointer Methods**
 
-### **Get current position**
+- **Get current position**
 
 ```python
 f.tell()
 ```
 
-### **Move file pointer**
+- **Move file pointer**
 
 ```python
 f.seek(0)      # Move to beginning
@@ -127,7 +130,7 @@ os.remove("sample.txt")
 
 ## **Working with JSON Files**
 
-### **Write JSON**
+- **Write JSON**
 
 ```python
 import json
@@ -136,7 +139,7 @@ with open("data.json", "w") as f:
     json.dump({"name": "Avi"}, f)
 ```
 
-### **Read JSON**
+- **Read JSON**
 
 ```python
 with open("data.json", "r") as f:
@@ -147,7 +150,7 @@ with open("data.json", "r") as f:
 
 ## **Working with CSV Files**
 
-### **Write CSV**
+- **Write CSV**
 
 ```python
 import csv
@@ -157,7 +160,7 @@ with open("test.csv", "w", newline="") as f:
     writer.writerow(["Name", "Age"])
 ```
 
-### **Read CSV**
+- **Read CSV**
 
 ```python
 import csv
