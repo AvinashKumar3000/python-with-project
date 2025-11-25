@@ -127,12 +127,12 @@ negative index       -9  -8  -7  -6  -5  -4  -3  -2  -1
 ```
 
 ```python
-li = [10,20,30,40]
-li = [10,20,30,40]
+l1 = [10,20,30,40]
+l2 = [10,20,30,40]
 
 # creates 2 different lists
-li is l2  # false
-li[1] = 11  # l2 is not affected
+l1 is l2  # false
+l1[1] = 11  # l2 is not affected
 ```
 
 ```bash
