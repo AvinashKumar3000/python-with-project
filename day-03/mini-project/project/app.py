@@ -1,4 +1,4 @@
-from services.expense_service import ExpenseService
+import services.expense_service as service 
 
 def print_menu():
     print("\n===== EXPENSE TRACKER =====")
@@ -9,8 +9,6 @@ def print_menu():
     print("============================")
 
 def main():
-    service = ExpenseService()
-
     while True:
         print_menu()
         choice = input("Enter your choice: ")
@@ -31,8 +29,8 @@ def main():
                 print("No expenses found.")
             else:
                 print("\n--- Expense Records ---")
-                for r in records:
-                    print(r)
+                for row in records:
+                    print(row)
 
         elif choice == "3":
             try:
