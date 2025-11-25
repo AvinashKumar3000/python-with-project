@@ -3,8 +3,8 @@ import os
 
 DATA_FILE = "data/students.json"
 
+# Reads and returns student data from JSON file.
 def load_data():
-    """Reads and returns student data from JSON file."""
     if not os.path.exists(DATA_FILE):
         return []
 
@@ -14,8 +14,7 @@ def load_data():
         except json.JSONDecodeError:
             return []
 
-
+# Saves student data into JSON file.
 def save_data(data):
-    """Saves student data into JSON file."""
     with open(DATA_FILE, "w") as file:
         json.dump(data, file, indent=4)

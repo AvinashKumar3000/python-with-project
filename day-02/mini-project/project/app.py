@@ -15,7 +15,6 @@ def menu():
     print("5. Delete Student")
     print("6. Exit")
 
-
 def main():
     while True:
         menu()
@@ -25,35 +24,33 @@ def main():
             sid = int(input("Enter ID: "))
             name = input("Enter Name: ")
             age = int(input("Enter Age: "))
-            print(add_student(sid, name, age))
-
+            result = add_student(sid, name, age)
+            print(result)
         elif choice == "2":
             for s in get_all_students():
                 print(s)
-
         elif choice == "3":
             sid = int(input("Enter ID: "))
-            print(get_student(sid))
-
+            result = get_student(sid)
+            print(result)
         elif choice == "4":
             sid = int(input("Enter ID: "))
             name = input("New Name (or press enter): ")
             age = input("New Age (or press enter): ")
 
-            print(update_student(
+            result = update_student(
                 sid,
                 name if name.strip() else None,
                 int(age) if age.isdigit() else None,
-            ))
-
+            )
+            print(result)
         elif choice == "5":
             sid = int(input("Enter ID: "))
-            print(delete_student(sid))
-
+            result = delete_student(sid)
+            print(result)
         elif choice == "6":
             print("Goodbye!")
             break
-
         else:
             print("Invalid choice")
 
