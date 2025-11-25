@@ -6,15 +6,17 @@
 project_folder/
 │
 ├── data/
-│   └── students.json
+│   └── expenses.csv
 │
 ├── utils/
 │   ├── __init__.py
-│   └── file_handler.py
+│   └── exceptions.py
+│   └── validators.py
 │
 ├── services/
 │   ├── __init__.py
-│   └── student_service.py
+│   └── expense_service.py
+│   └── file_service.py
 │
 └── app.py
 ```
@@ -24,149 +26,148 @@ project_folder/
 ## `app.py`
 
 ```python
-from services.student_service import (
-    add_student,
-    get_all_students,
-    get_student,
-    update_student,
-    delete_student,
-)
+import services.expense_service as service 
 
-def menu():
-    print("\n--------- Student Record Management ---------")
-    print("1. Add Student")
-    print("2. View All Students")
-    print("3. Search Student")
-    print("4. Update Student")
-    print("5. Delete Student")
-    print("6. Exit")
+def print_menu():
+    print("\n===== EXPENSE TRACKER =====")
+    print("1. Add Expense")
+    print("2. View All Expenses")
+    print("3. Total Expense")
+    print("4. Exit")
+    print("============================")
 
 def main():
     while True:
-        menu()
-        choice = input("Enter choice: ")
+        print_menu()
+        choice = input("Enter your choice: ")
 
         if choice == "1":
-            sid = int(input("Enter ID: "))
-            name = input("Enter Name: ")
-            age = int(input("Enter Age: "))
-            result = add_student(sid, name, age)
-            print(result)
+            category = input("Category: ")
+            amount = input("Amount: ")
+            note = input("Note (optional): ")
+            try:
+                service.add_expense(category, amount, note)
+                print("✔ Expense added successfully!")
+            except Exception as e:
+                print("Error:", e)
+
         elif choice == "2":
-            for s in get_all_students():
-                print(s)
+            records = service.get_all_expenses()
+            if not records:
+                print("No expenses found.")
+            else:
+                print("\n--- Expense Records ---")
+                for row in records:
+                    print(row)
+
         elif choice == "3":
-            sid = int(input("Enter ID: "))
-            result = get_student(sid)
-            print(result)
+            try:
+                total = service.get_total_expense()
+                print(f"Total Expense: ₹{total}")
+            except Exception as e:
+                print("Error:", e)
+
         elif choice == "4":
-            sid = int(input("Enter ID: "))
-            name = input("New Name (or press enter): ")
-            age = input("New Age (or press enter): ")
-
-            result = update_student(
-                sid,
-                name if name.strip() else None,
-                int(age) if age.isdigit() else None,
-            )
-            print(result)
-        elif choice == "5":
-            sid = int(input("Enter ID: "))
-            result = delete_student(sid)
-            print(result)
-        elif choice == "6":
-            print("Goodbye!")
+            print("Exiting application...")
             break
-        else:
-            print("Invalid choice")
 
+        else:
+            print("Invalid choice. Try again.")
 
 if __name__ == "__main__":
     main()
 ```
 
-## `file_handler.py`
+## `exceptions.py`
 
 ```python
-import json
+class InvalidAmountError(Exception):
+    """Raised when amount is invalid."""
+    pass
+
+class InvalidCategoryError(Exception):
+    """Raised when category is invalid."""
+    pass
+```
+
+## `validators.py`
+
+```python
+from utils.exceptions import InvalidAmountError, InvalidCategoryError
+
+def validate_amount(amount):
+    try:
+        value = float(amount)
+        if value < 0:
+            raise InvalidAmountError("Amount must be positive.")
+    except ValueError:
+        raise InvalidAmountError("Amount must be a numeric value.")
+
+def validate_category(category):
+    if not category or not category.strip():
+        raise InvalidCategoryError("Category cannot be empty.")
+```
+
+## `expense_service.py`
+
+```python
+import services.file_service as file_service
+from utils.validators import validate_amount, validate_category
+
+def add_expense(category, amount, note=""):
+    validate_category(category)
+    validate_amount(amount)
+    row = [category.strip(), amount.strip(), note.strip()]
+    file_service.write_row(row)
+
+def get_all_expenses():
+    return file_service.read_all()
+
+def get_total_expense():
+    records = file_service.read_all()
+    total = 0
+    for row in records:
+        amount = row[1]
+        try:
+            total += float(amount)
+        except ValueError:
+            pass
+    return total
+```
+
+## `file_service.py`
+
+```python
+import csv
 import os
 
-DATA_FILE = "data/students.json"
+FILE_PATH = "data/expenses.csv"
 
-# Reads and returns student data from JSON file.
-def load_data():
-    if not os.path.exists(DATA_FILE):
-        return []
+# Create file if not exists
+if not os.path.exists("data"):
+    os.makedirs("data")
 
-    with open(DATA_FILE, "r") as file:
-        try:
-            return json.load(file)
-        except json.JSONDecodeError:
-            return []
+if not os.path.exists(FILE_PATH):
+    with open(FILE_PATH, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Category", "Amount", "Note"])
 
-# Saves student data into JSON file.
-def save_data(data):
-    with open(DATA_FILE, "w") as file:
-        json.dump(data, file, indent=4)
+def write_row(row):
+    with open(FILE_PATH, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(row)
+
+def read_all():
+    with open(FILE_PATH, "r") as f:
+        reader = csv.reader(f)
+        next(reader)  # skip header
+        return list(reader)
 ```
 
-## `student_service.py`
+## `expenses.csv`
 
 ```python
-from utils.file_handler import load_data, save_data
-
-def add_student(student_id, name, age):
-    students = load_data()
-
-    # Prevent duplicates
-    for s in students:
-        if s["id"] == student_id:
-            return "Student ID already exists"
-
-    students.append({"id": student_id, "name": name, "age": age})
-    save_data(students)
-    return "Student added successfully"
-
-def get_all_students():
-    return load_data()
-
-def get_student(student_id):
-    students = load_data()
-    for s in students:
-        if s["id"] == student_id:
-            return s
-    return None
-
-def update_student(student_id, name=None, age=None):
-    students = load_data()
-    for s in students:
-        if s["id"] == student_id:
-            s["name"] = name
-            s["age"] = age
-            save_data(students)
-            return "Student updated successfully"
-
-    return "Student not found"
-
-def delete_student(student_id):
-    students = load_data()
-    new_students = [s for s in students if s["id"] != student_id]
-
-    if len(students) == len(new_students):
-        return "Student not found"
-
-    save_data(new_students)
-    return "Student deleted successfully"
-```
-
-## `students.json`
-
-```python
-[
-    {
-        "id": 12,
-        "name": "sample",
-        "age": 23
-    }
-]
+Category,Amount,Note
+car,2000,nothing
+food,400,breakfast and lunch
 ```
