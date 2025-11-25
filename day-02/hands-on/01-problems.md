@@ -1,3 +1,5 @@
 # problem
 
-Read and write details from files 
+- create a list of students.
+- perform sorting.
+- perform filtering.
