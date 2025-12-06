@@ -217,6 +217,300 @@ hybrid inheritance.
         
 ```
 
+# polymorphism 
+- poly => many
+- morphism => shapes
+- ability of an object to respond diff for diff scenarios is called polymorphism.
+  
+## Types
+  - over loading ( compile time polymorphism )
+  - over riding  ( run time polymophism )
+    
+
+# over loading
+
+```c
+void fn(int a){
+   printf("%d",a);
+}
+void fn(float a){
+    printf("%f",a);
+}
+void main() {
+    int x = 10;
+    float y = 23.3;
+    fn(x);
+    fn(y);
+}
+
+
+```python
+# overloading is not possible in python
+# becuase if we create multiple func
+#   with same name, then latest func will be declared.
+#   all other will be omitted.
+```
+
+
+```python
+# here in below
+# python is indirectly implementing over-loading concept.
+def fn(a=10,b=20,c=30):
+    print(a,b,c)
+
+fn()
+fn(1)
+fn(1,2)
+fn(1,2,3)
+```
+
+    10 20 30
+    1 20 30
+    1 2 30
+    1 2 3
+    
+
+
+```python
+# over riding
+#   in inheritance child class method will override
+#       parent class method. that is called over-riding.
+
+class Parent:
+    def fn():
+        print("Hello")
+class Child(Parent):
+    def fn():
+        print("hi")
+```
+
+
+```python
+Child.fn()
+```
+
+    hi
+    
+
+# abstraction
+- hiding the internal implmentation
+- and only showing essential information
+
+
+```python
+# ABC    Abstract Base Class
+from abc import ABC, abstractmethod
+```
+
+
+```python
+class Engine(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+class V8(Engine):
+    def start(self):
+        print("engine started")
+```
+
+
+```python
+mustang = V8()
+```
+
+
+```python
+mustang.start()
+```
+
+    engine started
+    
+
+
+```python
+
+```
+
+
+```python
+class Sample:
+    a = 100
+
+obj1 = Sample()
+obj2 = Sample()
+obj3 = Sample()
+print(obj1.a)
+print(obj2.a)
+print(obj3.a)
+Sample.a = 500
+print(obj1.a)
+print(obj2.a)
+print(obj3.a)
+```
+
+    100
+    100
+    100
+    500
+    500
+    500
+    
+
+
+```python
+## types of variables inside class
+#   - class variable
+#   - instance variable
+```
+
+
+```python
+# class variables
+class Sample:
+    a = 100  # class variable
+    b = 200  # class variable
+
+Sample.c = 300 # class variable
+```
+
+
+```python
+# class var is shared to all the objects.
+# u can create or manipulate class var only using class name
+obj = Sample()
+print(obj.a, obj.b, obj.c)
+```
+
+    100 200 300
+    
+
+
+```python
+class Staff:
+    a = 90  # class variable
+
+lancer = Staff()
+puff  = Staff()
+```
+
+
+```python
+lancer.name= "Danny Phantom" # instance variable
+puff.name = "SpongeBob" # instance variable
+```
+
+
+```python
+puff.is_famous = True # instance variable
+```
+
+
+```python
+dir(lancer)
+```
+
+
+
+
+    ['__class__',
+     '__delattr__',
+     '__dict__',
+     '__dir__',
+     '__doc__',
+     '__eq__',
+     '__format__',
+     '__ge__',
+     '__getattribute__',
+     '__getstate__',
+     '__gt__',
+     '__hash__',
+     '__init__',
+     '__init_subclass__',
+     '__le__',
+     '__lt__',
+     '__module__',
+     '__ne__',
+     '__new__',
+     '__reduce__',
+     '__reduce_ex__',
+     '__repr__',
+     '__setattr__',
+     '__sizeof__',
+     '__str__',
+     '__subclasshook__',
+     '__weakref__',
+     'a',
+     'name']
+
+
+
+
+```python
+# Instance variable
+##   Instance mean object.
+##   Only depends upon object.
+##    u can create or manipulate instance var only using an object.
+```
+
+#### types of methods
+- instance method
+     - associated with object.
+     - only call this method with an object.
+     - cannot call this method with a class.
+- class method
+     - associated with class.
+     - can call this method with an object.
+     - can call this method with a class.
+- static method
+     - not associated with class / object.
+     - can call with both class & object.
+
+
+```python
+class Sample:
+    def fn1(self,x,y): # instance method
+        print("instance method", x+y)
+    @classmethod
+    def fn2(cls,x,y): # class method
+        print("class method", x+y)
+    @staticmethod
+    def fn3(x,y):
+        print("static method", x+y)
+```
+
+
+```python
+obj = Sample()
+```
+
+
+```python
+obj.fn1(10,20)
+```
+
+    instance method 30
+    
+
+
+```python
+obj.fn2(10,20)
+Sample.fn2(11,22)
+```
+
+    class method 30
+    class method 33
+    
+
+
+```python
+obj.fn3(10,20)
+Sample.fn3(11,22)
+```
+
+    static method 30
+    static method 33
+    
+
 
 ```python
 
