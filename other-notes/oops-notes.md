@@ -513,5 +513,113 @@ Sample.fn3(11,22)
 
 
 ```python
+# constructor and destructor
+```
+
+
+```python
+class Movie:
+    def __init__(self):  ## constructor
+        # execute when there is a object creation
+        print("constructor executed")
+    def __del__(self):   ## destructor
+        # execute when there is a object deletion
+        print("destructor executed")
+```
+
+
+```python
+bagubali = Movie()
+```
+
+    constructor executed
+    
+
+
+```python
+del bagubali
+```
+
+    destructor executed
+    
+
+
+```python
+a = 10
+print(a)
+```
+
+    10
+    
+
+
+```python
+# constructor usage
+# - used for creating object variables
+class Movie:
+    def __init__(self,name,hours):
+        self.name = name
+        self.hours = hours
+```
+
+
+```python
+m1 = Movie('bhagubali',3)
+m2 = Movie('hit-3',4)
+```
+
+
+```python
+print(m1.name, m1.hours)
+print(m2.name, m2.hours)
+```
+
+    bhagubali 3
+    hit-3 4
+    
+
+
+```python
+## double underscore.
+#  - dunder methods / magic methods
+class Point:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+    def __add__(self,obj):
+        new_obj = Point(self.x + obj.x,  self.y + obj.y)
+        return new_obj
+```
+
+
+```python
+p1 = Point(4,2)
+p2 = Point(2,2)
+p3 = p1 + p2
+```
+
+
+```python
+p3.x, p3.y
+```
+
+
+
+
+    (6, 4)
+
+
+
+
+```python
+class Sample:
+    a = 90    # public
+    _b = 8    # protected
+    __c = 98  # private
+
+```
+
+
+```python
 
 ```
